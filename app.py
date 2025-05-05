@@ -30,6 +30,8 @@ tts_model = Text2Speech.from_pretrained("espnet/kan-bayashi_ljspeech_vits")
 
 yolo_model = YOLO("yolov5s.pt")
 
+# Railway에서 제공하는 포트를 사용
+port = os.getenv('PORT', 5000)
 
 @app.route("/nlp", methods=["POST"])
 def handle_nlp():
@@ -94,6 +96,6 @@ def handle_image():
 
     return jsonify({"objects": detected_objects})
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    # Railway에서 제공하는 포트로 Flask 앱 실행
+    app.run(host="0.0.0.0", port=port)
