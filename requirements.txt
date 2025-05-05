@@ -6,3 +6,4 @@ python-dotenv==0.19.2
 requests==2.26.0
 tokenizers==0.13.3
 werkzeug==2.0.3
+typeguard==2.13.3
