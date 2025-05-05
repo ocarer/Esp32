@@ -1,6 +1,6 @@
 Flask==2.0.2
 transformers==4.11.3
 espnet==0.10.6
-ultralytics==8.0.19
+ultralytics==8.3.126
 python-dotenv==0.19.2
 requests==2.26.0
