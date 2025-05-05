@@ -4,7 +4,7 @@ transformers==4.26.1
 tokenizers==0.13.3
 requests==2.26.0
 espnet==0.10.6
-torch==1.10.1
-torchaudio==0.10.1
+torch==1.13.1
+torchaudio==0.13.1
 scipy==1.8.1
 typeguard==2.13.3
