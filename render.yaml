@@ -1,8 +1,9 @@
 services:
   - type: web
-    name: flask-app
-    env: python
-    plan: free
+    name: your-service-name
+    runtime: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python app.py"
-    branches: "main"
+    startCommand: python app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
