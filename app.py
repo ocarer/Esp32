@@ -7,18 +7,23 @@ from espnet2.bin.tts_inference import Text2Speech
 from ultralytics import YOLO
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from dotenv import load_dotenv
+import logging
 
 app = Flask(__name__)
 
 # .env 파일 로드 (환경변수)
 load_dotenv()
 
+# 로그 레벨 설정
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
 # Hugging Face 토큰 로그인
 hf_token = os.getenv("HUGGINGFACE_TOKEN")
 if hf_token:
     login(token=hf_token)
 else:
-    print("Hugging Face token not found in environment variables.")
+    logger.warning("Hugging Face token not found in environment variables.")
 
 # 모델 로드
 mistral_model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-Instruct-v0.3")
@@ -47,6 +52,9 @@ def handle_nlp():
     if "집어" in text or "가져와" in text:
         action = "grab"
     
+    # 로그 출력
+    logger.debug(f"Received NLP request. Reply: {reply}, Action: {action}")
+    
     return jsonify({"reply": reply, "action": action})
 
 
@@ -60,6 +68,10 @@ def handle_stt():
 
     # Whisper 모델을 사용하여 음성 -> 텍스트 변환
     result = stt_pipe("temp.wav")
+    
+    # 로그 출력
+    logger.debug(f"STT result: {result['text']}")
+    
     return jsonify({"text": result["text"]})
 
 
@@ -79,6 +91,9 @@ def handle_tts():
     with open(wav_path, "rb") as f:
         audio_base64 = base64.b64encode(f.read()).decode("utf-8")
     
+    # 로그 출력
+    logger.debug("TTS request processed successfully.")
+    
     return jsonify({"audio": audio_base64})
 
 
@@ -93,6 +108,9 @@ def handle_image():
     # YOLOv5 모델을 사용하여 이미지에서 객체 탐지
     results = yolo_model("temp.jpg")
     detected_objects = [result["name"] for result in results.pandas().xywh[0].to_dict(orient="records")]
+    
+    # 로그 출력
+    logger.debug(f"Image detection result: {detected_objects}")
 
     return jsonify({"objects": detected_objects})
 
