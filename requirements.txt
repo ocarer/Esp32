@@ -8,3 +8,4 @@ torch==2.0.0
 torchaudio==2.0.1
 scipy==1.11.4
 typeguard==2.13.3
+six==1.16.0
