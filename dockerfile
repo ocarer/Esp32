@@ -1,9 +1,10 @@
 FROM python:3.10-slim
 
-# 필수 시스템 패키지 설치
+# 필수 시스템 패키지 설치 (🔥 핵심은 libgl1-mesa-glx!)
 RUN apt-get update && apt-get install -y \
-    libgl1 \
+    libgl1-mesa-glx \
     libglib2.0-0 \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Python 패키지 설치
