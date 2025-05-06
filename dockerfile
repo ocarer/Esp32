@@ -1,23 +1,26 @@
 FROM python:3.10-slim
 
-# 시스템 패키지 설치 (libGL 포함)
+# 시스템 패키지 설치 (libGL 포함!)
 RUN apt-get update && apt-get install -y \
-    libgl1 libglib2.0-0 ffmpeg git && \
-    apt-get clean
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
 
-# 작업 디렉토리
+# 작업 디렉토리 설정
 WORKDIR /app
 
-# requirements.txt 복사 및 설치
-COPY requirements.txt .
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# 소스 코드 복사
+# 코드 복사
 COPY . .
 
-# HuggingFace 로그인용 환경변수 준비
-ENV TRANSFORMERS_CACHE=/app/cache
+# 가상환경 생성 + 의존성 설치
+RUN python -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# 실행
+# 환경변수 설정
+ENV PATH="/opt/venv/bin:$PATH"
+
+# 앱 실행
 CMD ["python", "app.py"]
+
