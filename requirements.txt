@@ -3,7 +3,7 @@ werkzeug==2.0.3
 transformers==4.40.1
 requests==2.26.0
 espnet==0.10.6
-torch-cpu==2.2.0
+torch==2.2.0
 torchaudio==2.0.1
 scipy==1.11.4
 typeguard==2.13.3
