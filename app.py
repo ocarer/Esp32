@@ -114,6 +114,6 @@ def handle_image():
 
     return jsonify({"objects": detected_objects})
 
+# Vercel에서는 `Flask.run()` 대신 WSGI 서버로 처리합니다.
 if __name__ == "__main__":
-    # Railway에서 제공하는 포트로 Flask 앱 실행
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
